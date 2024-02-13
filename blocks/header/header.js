@@ -1,5 +1,7 @@
 import { getMetadata, decorateIcons } from '../../scripts/aem.js';
 
+const DOMAIN = window.location.hostname === 'localhost' ? 'http://localhost:3300' : '';
+
 // media query match that indicates mobile/tablet width
 const isDesktop = window.matchMedia('(min-width: 900px)');
 
@@ -85,6 +87,52 @@ function toggleMenu(nav, navSections, forceExpanded = null) {
   }
 }
 
+const renderTemplate = (template, item) => {
+  // const templateElem = document.getElementById(templateID).cloneNode(true);
+  const templateElem = template;
+  let htmlStr = '';
+  if (templateElem) {
+    // htmlStr = templateElem.innerHTML;
+    htmlStr = templateElem;
+    // eslint-disable-next-line no-restricted-syntax
+    for (const [key, value] of Object.entries(item)) {
+      const regex = new RegExp(`{${key}}`, 'gi');
+      htmlStr = htmlStr.replace(regex, value ?? '');
+    }
+  }
+  return htmlStr;
+};
+
+const getSearchForm = (obj) => {
+  // const template = '<form name="search" id="search-form"><i class="cmp-search__icon" data-cmp-hook-search="icon"></i><label for="{Name}" hidden>{Label}</label><input type="{Type}" name="{Name}" id="{Name}"></form>';
+  const template = `    <section id="search-f5a05c82f1" class="cmp-search" role="search" data-cmp-min-length="3" data-cmp-results-size="5">
+  <form class="cmp-search__form" method="get"
+      action="/content/wknd/us/en/magazine.searchresults.json/_jcr_content/root/container/container_1195249223/search"
+      autocomplete="off">
+      <div class="cmp-search__field">
+          <i class="cmp-search__icon"></i>
+          <span class="cmp-search__loading-indicator"></span>
+          <input class="cmp-search__input" type="{Type}" name="{Name}" placeholder="{Name}" role="combobox"
+              aria-autocomplete="list" aria-haspopup="true" aria-invalid="false" aria-expanded="false"
+              aria-owns="cmp-search-results-0" />
+          <button class="cmp-search__clear" aria-label="Clear" aria-hidden="true" style="display: none">
+              <i class="cmp-search__clear-icon"></i>
+          </button>
+      </div>
+  </form>
+</section>`;
+  return renderTemplate(template, obj)
+}
+
+const addSearchField = async () => {
+  const req = await fetch(`${DOMAIN}/forms.json`);
+  const resp = await req.json();
+  if (resp?.total && resp?.data?.length) {
+    const formHTML = getSearchForm(resp?.data[0]);
+    document.querySelector('.search-form').innerHTML = formHTML;
+  }
+}
+
 /**
  * decorates the header, mainly the nav
  * @param {Element} block The header block element
@@ -141,5 +189,6 @@ export default async function decorate(block) {
     navWrapper.className = 'nav-wrapper';
     navWrapper.append(nav);
     block.append(navWrapper);
+    addSearchField();
   }
 }
