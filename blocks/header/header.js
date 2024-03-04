@@ -125,7 +125,7 @@ const getSearchForm = (obj) => {
 }
 
 const addSearchField = async () => {
-  const req = await fetch(`${DOMAIN}/forms.json`);
+  const req = await fetch(`${DOMAIN}/forms.json?sheet=search`);
   const resp = await req.json();
   if (resp?.total && resp?.data?.length) {
     const formHTML = getSearchForm(resp?.data[0]);

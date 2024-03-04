@@ -1,0 +1,79 @@
+.register {
+  font: normal 18px/1.5 "Fira Sans", "Helvetica Neue", sans-serif;
+  background: #3aafab;
+  color: #fff;
+  padding: 50px 0;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.registration-form,
+.flex-inner {
+  list-style-type: none;
+  padding: 0;
+}
+
+.registration-form {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.registration-form div,
+.flex-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.flex-inner {
+  padding: 0 8px;
+  justify-content: space-between;
+}
+
+.flex-inner div {
+  width: 100px;
+}
+
+.registration-form > div:not(:last-child) {
+  margin-bottom: 20px;
+}
+
+.registration-form div label,
+.registration-form div p {
+  padding: 8px;
+  font-weight: 300;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.registration-form > div > label,
+.registration-form div p {
+  flex: 1 0 120px;
+  max-width: 220px;
+}
+
+.registration-form > div > label + *,
+.flex-inner {
+  flex: 1 0 220px;
+}
+
+.registration-form div p {
+  margin: 0;
+}
+
+.registration-form div input:not([type="checkbox"]),
+.registration-form div textarea {
+  padding: 15px;
+  border: none;
+}
+
+.registration-form div button {
+  margin-left: auto;
+  padding: 8px 16px;
+  border: none;
+  background: #333;
+  color: #f2f2f2;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  border-radius: 2px;
+}
